@@ -1,0 +1,23 @@
+{
+  "name": "GameOfLife",
+  "version": "0.0.1",
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "fabric.js": "fabric#^1.7.3",
+    "angular-mocks": "^1.6.1"
+  },
+  "description": "A simple application to demonstrate Conway's game of life",
+  "main": "app.html",
+  "authors": [
+    "bbc"
+  ],
+  "license": "MIT",
+  "homepage": "app.htmlk",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
