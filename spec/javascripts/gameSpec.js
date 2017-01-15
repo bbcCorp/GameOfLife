@@ -2,19 +2,20 @@
 
 // Tests for GameOfLife Object
 describe("GameOfLife", function(){
-    // Create a 10x10 grid for the game
-    var dimension = 10;     
-    var game = GameOfLife;
-    var gameGrid = game.initGame(dimension);
-
     describe("After initialization gameGrid should be a 10x10 matrix", function(){
-        
+        // Create a 10x10 grid for the game
+        var dimension = 10;     
+        var game = new GameOfLife(true);
+        var gameGrid = game.initGame(dimension);
+
         it("gameGrid should have 10 rows", function(){
             expect(gameGrid.length).toEqual(dimension,"gameGrid has less than 10 rows!");
         });
     });
 
     describe("Update Grid", function(){
+        var game = new GameOfLife(true);
+        game.initGame(10);
         // "nearStable2x2": [ [4,4, true] , [5,4, true], [5,5, true] ]
         var _updatedGrid = game.addShape("nearStable2x2");
 
@@ -28,7 +29,9 @@ describe("GameOfLife", function(){
     // -------------- Following tests check the internal functions that is central to this game ------------- //
     describe("Rule 1: Under population", function(){
         var currentState = true;
-        
+        var game = new GameOfLife(true);
+        game.initGame(10);
+
         it("Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.", function(){
 
             var futureState = game._calculateCellState(currentState, 0);
@@ -41,7 +44,8 @@ describe("GameOfLife", function(){
 
     describe("Rule 2: Survival of the Living", function(){
         var currentState = true;
-        
+        var game = new GameOfLife(true);
+        game.initGame(10);
         it("Any live cell with two or three live neighbours lives on to the next generation.", function(){
 
             var futureState = game._calculateCellState(currentState, 2);
@@ -54,7 +58,8 @@ describe("GameOfLife", function(){
 
     describe("Rule 3: Over population", function(){
         var currentState = true;
-        
+        var game = new GameOfLife(true);
+        game.initGame(10);
         it("Any live cell with more than three live neighbours dies, as if by overpopulation.", function(){
 
             var futureState = game._calculateCellState(currentState, 4);
@@ -76,7 +81,8 @@ describe("GameOfLife", function(){
 
     describe("Rule 4: Rebirth", function(){
         var currentState = false;
-        
+        var game = new GameOfLife(true);
+        game.initGame(10);
         it("Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.", function(){
 
             var futureState = game._calculateCellState(currentState, 3);
@@ -86,6 +92,8 @@ describe("GameOfLife", function(){
     });
 
     describe ("Check Neighbour calculation", function(){
+        var game = new GameOfLife(true);
+        game.initGame(10);
         neighbours = game._getNeighbours(10, 5, 5);
         it("Neighbours for 5,5 should be (4,4), (4,5), (4,6),(5,4), (5,6), (6,4), (6,5), (6,6)", function(){
             expect(neighbours.length).toEqual(8, "Any cell has 8 neighbours");
@@ -100,4 +108,33 @@ describe("GameOfLife", function(){
         })
     });
 
+
+    describe ("Check a stable 2x2 shape", function(){   
+        var game = new GameOfLife(true);
+        game.initGame(10);
+
+        // "Stable2x2": [ [4,4,true], [5,4,true], [4,5,true], [5,5,true] ]
+        game.addShape("nearStable2x2");
+        game.nextGeneration();
+
+        it("Positions dont change once we get a 2x2", function(){
+            expect(game.gameGrid[4][4] &&  game.gameGrid[5][4] && game.gameGrid[5][5])
+            .toBeTruthy("Cell for 2x2 should be alive in all generations");
+        })
+    });
+
+    describe ("Glider should glide through in each generation", function(){   
+        var game = new GameOfLife(true);
+        game.initGame(10);
+
+        // "glider": [[4, 4, true], [6, 4, true], [5, 5, true], [6, 5, true], [5, 6, true]]
+        game.addShape("glider");
+        game.nextGeneration();
+
+        it("Positions should change for a glider", function(){
+            expect(game.gameGrid[4][4] && game.gameGrid[6][4] && game.gameGrid[5][5] 
+                && game.gameGrid[6][5] && game.gameGrid[5][6] )
+            .toBeFalsy("Positions should not remain same for a glider across generations");
+        })
+    });
 });

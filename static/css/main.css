@@ -42,7 +42,9 @@ body {
 }
 
 .gameCanvas {
-  border: 5px solid rgb(204, 204, 204); 
+  background-color: red;
+  padding-left: 100px;
+  border: 2px solid rgb(204, 204, 204); 
   position: absolute; 
   width: 500px; 
   height: 500px; 

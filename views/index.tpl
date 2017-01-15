@@ -17,44 +17,34 @@
     <div class="container">
         <div class="header">
             <ul class="nav nav-pills pull-right">
-                <li class="active"><a ng-href="#">Home</a></li>
-                <li><a ng-href="#">About</a></li>
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
             </ul>
             <h3 class="text-muted">Conway's Game Of Life</h3>
         </div>
-
-        <!-- 
-        <div class="jumbotron">
-            <h1>Conway's Game of Life</h1>
-            <p class="lead">
-                <img src="static/img/yeoman.png" alt="I'm Yeoman"><br>
-                Always a pleasure scaffolding your apps.
-            </p>
-            <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-        </div>
-        -->
-
-        <!-- This is the Canvas area where the gamePlot would be displayed -->
         
         <div class="canvas-container">
         <br/>
-        <canvas id="c" width="500" height="500" class="gameCanvas"></canvas>                
-        <h2 id="iterationCounter">Iteration: 0</h2>    
-        <br/>
-        
-        <div>
-            <button class="btn btn-default" id="btnLaunchGame">Launch Game </button>
-            <button class="btn btn-default" id="btnProceedGame">Proceed to Next Generation</button>
-            
-
-            <select id="creatures">
+        <div class="form-group">
+            <label>Select the shape you want: </label>
+            <select id="creatures" class="form-control">
                 <option selected>glider</option>
                 <option>glider2</option>
                 <option>starship</option>
                 <option>nearStable2x2</option>
                 <option>Stable2x2</option>
                 <option>StableRing</option>
+                <option>Tetrix1<option>
             </select>
+        </div>
+        <!-- This is the Canvas area where the gamePlot would be displayed -->
+        <canvas id="c" width="500" height="500" style="border: 1px solid rgb(204, 204, 204);"></canvas>                
+        <h2 id="iterationCounter">Iteration: 0</h2>    
+        <br/>
+        
+        <div>
+            <button class="btn btn-default" id="btnLaunchGame">Launch Game </button>
+            <button class="btn btn-default" id="btnProceedGame">Proceed to Next Generation</button>            
         </div>
 
     </div>
@@ -66,7 +56,7 @@
     
     <script>
         var animateGame = null;   
-        var game = GameOfLife;
+        var game = new GameOfLife();
 
         $(document).ready(function(){
             var self = this;

@@ -5,6 +5,10 @@ from bottle import *
 def index(section='home'):
     return template('index')
 
+@route('/about')
+def index(section='about'):
+    return template('about')
+
 @error(404)
 def error404(error):
     return 'This is not the page you are looking for.'
