@@ -33,3 +33,21 @@ body {
   font-size: 21px;
   padding: 14px 24px;
 }
+
+.canvas-container {
+  width: 800px; 
+  height: 800px; 
+  position: relative; 
+  user-select: none;
+}
+
+.gameCanvas {
+  border: 5px solid rgb(204, 204, 204); 
+  position: absolute; 
+  width: 500px; 
+  height: 500px; 
+  left: 0px; 
+  top: 0px; 
+  user-select: none;
+  cursor: default;
+}

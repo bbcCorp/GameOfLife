@@ -22,7 +22,7 @@ describe("GameOfLife", function(){
     });
 
     describe("Update 2 cells", function(){
-        var _updatedGrid = game.updateGrid([ [0,0,true], [0,1,true] ]);
+        var _updatedGrid = game.addShape([ [0,0,true], [0,1,true] ]);
 
         it("updated grid should show 2 cells alive", function(){
             expect(_updatedGrid[0][0]).toBeTruthy("Cell [0,0] should be alive");
