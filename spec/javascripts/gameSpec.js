@@ -7,13 +7,6 @@ describe("GameOfLife", function(){
     var game = GameOfLife;
     var gameGrid = game.initGame(dimension);
 
-    describe("this is a simple test", function(){
-        var condition = true;
-        it("check if value is true", function(){
-            expect(condition).toBeTruthy("The condition must be true");
-        });
-    });
-
     describe("After initialization gameGrid should be a 10x10 matrix", function(){
         
         it("gameGrid should have 10 rows", function(){
@@ -21,24 +14,27 @@ describe("GameOfLife", function(){
         });
     });
 
-    describe("Update 2 cells", function(){
-        var _updatedGrid = game.addShape([ [0,0,true], [0,1,true] ]);
+    describe("Update Grid", function(){
+        // "nearStable2x2": [ [4,4, true] , [5,4, true], [5,5, true] ]
+        var _updatedGrid = game.addShape("nearStable2x2");
 
-        it("updated grid should show 2 cells alive", function(){
-            expect(_updatedGrid[0][0]).toBeTruthy("Cell [0,0] should be alive");
-            expect(_updatedGrid[0][1]).toBeTruthy("Cell [0,1] should be alive");
+        it("Add nearStable2x2 shape to grid. The respective cells should be true", function(){
+            expect(_updatedGrid[4][4]).toBeTruthy("Cell [4,4] should be alive");
+            expect(_updatedGrid[5][4]).toBeTruthy("Cell [5,4] should be alive");
+            expect(_updatedGrid[5][5]).toBeTruthy("Cell [5,5] should be alive");
         });
     });
 
+    // -------------- Following tests check the internal functions that is central to this game ------------- //
     describe("Rule 1: Under population", function(){
         var currentState = true;
         
         it("Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.", function(){
 
-            var futureState = game.calculateCellState(currentState, 0);
+            var futureState = game._calculateCellState(currentState, 0);
             expect(futureState).toBeFalsy("With 0 neighbour a cell should die");
             
-            futureState = game.calculateCellState(currentState, 1);
+            futureState = game._calculateCellState(currentState, 1);
             expect(futureState).toBeFalsy("With 1 neighbour a cell should die");
         });
     });
@@ -48,10 +44,10 @@ describe("GameOfLife", function(){
         
         it("Any live cell with two or three live neighbours lives on to the next generation.", function(){
 
-            var futureState = game.calculateCellState(currentState, 2);
+            var futureState = game._calculateCellState(currentState, 2);
             expect(futureState).toBeTruthy("With 2 neighbour a cell should survive the next generation");
             
-            futureState = game.calculateCellState(currentState, 3);
+            futureState = game._calculateCellState(currentState, 3);
             expect(futureState).toBeTruthy("With 1 neighbour a cell should survive the next generation");
         });
     });
@@ -61,19 +57,19 @@ describe("GameOfLife", function(){
         
         it("Any live cell with more than three live neighbours dies, as if by overpopulation.", function(){
 
-            var futureState = game.calculateCellState(currentState, 4);
+            var futureState = game._calculateCellState(currentState, 4);
             expect(futureState).toBeFalsy("With 4 neighbours, a cell should die");
             
-            futureState = game.calculateCellState(currentState, 5);
+            futureState = game._calculateCellState(currentState, 5);
             expect(futureState).toBeFalsy("With 5 neighbours, a cell should die");
 
-            futureState = game.calculateCellState(currentState, 6);
+            futureState = game._calculateCellState(currentState, 6);
             expect(futureState).toBeFalsy("With 6 neighbours, a cell should die");
 
-            futureState = game.calculateCellState(currentState, 7);
+            futureState = game._calculateCellState(currentState, 7);
             expect(futureState).toBeFalsy("With 7 neighbours, a cell should die");
 
-            futureState = game.calculateCellState(currentState, 8);
+            futureState = game._calculateCellState(currentState, 8);
             expect(futureState).toBeFalsy("With 8 neighbours, a cell should die");
         });
     });
@@ -83,10 +79,25 @@ describe("GameOfLife", function(){
         
         it("Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.", function(){
 
-            var futureState = game.calculateCellState(currentState, 3);
+            var futureState = game._calculateCellState(currentState, 3);
             expect(futureState).toBeTruthy("With 3 neighbour, a dead cell should be reborn");
             
         });
+    });
+
+    describe ("Check Neighbour calculation", function(){
+        neighbours = game._getNeighbours(10, 5, 5);
+        it("Neighbours for 5,5 should be (4,4), (4,5), (4,6),(5,4), (5,6), (6,4), (6,5), (6,6)", function(){
+            expect(neighbours.length).toEqual(8, "Any cell has 8 neighbours");
+            expect(neighbours).toContain([4,4]);
+            expect(neighbours).toContain([4,5]);
+            expect(neighbours).toContain([4,6]);
+            expect(neighbours).toContain([5,4]);
+            expect(neighbours).toContain([5,6]);
+            expect(neighbours).toContain([6,4]);
+            expect(neighbours).toContain([6,5]);
+            expect(neighbours).toContain([6,6]);
+        })
     });
 
 });

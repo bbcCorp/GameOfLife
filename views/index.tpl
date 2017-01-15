@@ -19,7 +19,6 @@
             <ul class="nav nav-pills pull-right">
                 <li class="active"><a ng-href="#">Home</a></li>
                 <li><a ng-href="#">About</a></li>
-                <li><a ng-href="#">Contact</a></li>
             </ul>
             <h3 class="text-muted">Conway's Game Of Life</h3>
         </div>
@@ -40,14 +39,21 @@
         <div class="canvas-container">
         <br/>
         <canvas id="c" width="500" height="500" class="gameCanvas"></canvas>                
+        <h2 id="iterationCounter">Iteration: 0</h2>    
         <br/>
         
         <div>
-            <button class="button" id="btnProceedGame">Proceed</button>
+            <button class="btn btn-default" id="btnLaunchGame">Launch Game </button>
+            <button class="btn btn-default" id="btnProceedGame">Proceed to Next Generation</button>
+            
 
             <select id="creatures">
                 <option selected>glider</option>
+                <option>glider2</option>
+                <option>starship</option>
                 <option>nearStable2x2</option>
+                <option>Stable2x2</option>
+                <option>StableRing</option>
             </select>
         </div>
 
@@ -59,12 +65,15 @@
     <script type="text/javascript" src="static/js/gameOfLife.js"></script>
     
     <script>
+        var animateGame = null;   
+        var game = GameOfLife;
+
         $(document).ready(function(){
-               
-            var game = GameOfLife;
+            var self = this;
+
 
             // Create a 10x10 grid for the game 
-            var gameGrid = game.initGame(10);
+            var gameGrid = game.initGame(20);
             game.initCellGrid();
             
             var selectedShape = $("#creatures").val();
@@ -72,13 +81,32 @@
             gameGrid = game.addShape( selectedShape );
             game.drawGrid(gameGrid);
 
+            var showGameIteration = function(){
+                $("#iterationCounter").text("Iteration: " + game.iteration);
+            };
+
+            $("#btnLaunchGame").on("click", function(){
+
+                if(animateGame){
+                    $(this).removeClass("btn-primary");
+                    clearInterval(animateGame);
+                    animateGame = null;
+                }
+                else {
+                    $(this).addClass("btn-primary");
+                    animateGame = setInterval( function(){
+                       game.nextGeneration( showGameIteration);  
+                    }, 100);
+                }
+                
+            });
+
             $("#btnProceedGame").on("click", function(){
-                game.nextGeneration();
+                game.nextGeneration(showGameIteration);
             })
 
             $("#creatures").on("change", function(){
                 game.reset();
-
                 var selectedShape = $("#creatures").val();
                 gameGrid = game.addShape( selectedShape );
                 game.drawGrid(gameGrid);
