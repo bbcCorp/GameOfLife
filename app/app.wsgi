@@ -1,7 +1,15 @@
 import os
 import sys
+import bottle
 from bottle import *
 
+# Set syspath and add application specific routes
+curpath = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(curpath)
+
+app_root_path = os.path.abspath( os.path.join(curpath, "../"))
+sys.path.append( app_root_path )
+print "app_root_path", app_root_path
 
 game = Bottle()
 @game.route('/test')
@@ -12,19 +20,22 @@ def test():
 def error404(error):
     return 'This is not the page you are looking for.'
 
-@get('/static/<filepath:path>')
+@game.get('/static/<filepath:path>')
 def static(filepath):
-    return static_file(filepath, root='static')
+    _path = os.path.abspath( os.path.join(app_root_path, "./static"))
+    return static_file(filepath, root= _path)
     
-@get('/bower_components/<filepath:path>')
+@game.get('/bower_components/<filepath:path>')
 def bower_files(filepath):
-    return static_file(filepath, root='bower_components')
+    _path = os.path.abspath( os.path.join(app_root_path, "./bower_components"))
+    return static_file(filepath, root=_path)
+
+template_path = os.path.abspath( os.path.join(app_root_path, "./views"))
+bottle.TEMPLATE_PATH.insert(0,template_path)
 
 
-# Set syspath and add application specific routes
-curpath = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(curpath)
-sys.path.append( os.path.abspath( os.path.join(curpath, "../views")) )
+# If we are hosting the app under a subdomain, we can set this
+bottle.BaseTemplate.defaults['URL_PREFIX'] = '/gameoflife'
 
 @game.route('/')
 def index(section='home'):

@@ -1,5 +1,8 @@
 import os
+import bottle
 from bottle import *
+
+bottle.BaseTemplate.defaults['URL_PREFIX'] = ''
 
 @route('/')
 def index(section='home'):

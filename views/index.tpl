@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="About Conway's Game Of Life">
+    <meta name="author" content="Bedabrata Chatterjee (BBC)">
 
     <title>GameOfLife</title>
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="static/css/main.css" rel="stylesheet" media="screen">
+    <link href="{{URL_PREFIX}}/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{{URL_PREFIX}}/static/css/main.css" rel="stylesheet" media="screen">
 
 </head>
 <body>
@@ -17,8 +17,8 @@
     <div class="container">
         <div class="header">
             <ul class="nav nav-pills pull-right">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
+                <li class="active"><a href="{{URL_PREFIX}}/">Home</a></li>
+                <li><a href="{{URL_PREFIX}}/about">About</a></li>
             </ul>
             <h3 class="text-muted">Conway's Game Of Life</h3>
         </div>
@@ -49,11 +49,16 @@
 
     </div>
 
-    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="bower_components/fabric.js/dist/fabric.min.js"></script>
-    <script type="text/javascript" src="static/js/gameOfLife.js"></script>
+    <script type="text/javascript" src="{{URL_PREFIX}}/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="{{URL_PREFIX}}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{URL_PREFIX}}/bower_components/fabric.js/dist/fabric.min.js"></script>
+    <script type="text/javascript" src="{{URL_PREFIX}}/static/js/gameOfLife.js"></script>
     
+    <script>
+        // Application Globals
+        var URL_PREFIX = "{{URL_PREFIX}}";
+    </script>
+
     <script>
         var animateGame = null;   
         var game = new GameOfLife();

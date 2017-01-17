@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Demo of Conway's Game of Life">
+    <meta name="author" content="Bedabrata Chatterjee (BBC)">
 
     <title>GameOfLife</title>
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="static/css/main.css" rel="stylesheet" media="screen">
+    <link href="{{URL_PREFIX}}/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{{URL_PREFIX}}/static/css/main.css" rel="stylesheet" media="screen">
 
 </head>
 <body>
@@ -17,8 +17,8 @@
     <div class="container">
         <div class="header">
             <ul class="nav nav-pills pull-right">
-                <li><a href="/">Home</a></li>
-                <li class="active"><a href="/about">About</a></li>
+                <li><a href="{{URL_PREFIX}}/">Home</a></li>
+                <li class="active"><a href="{{URL_PREFIX}}/about">About</a></li>
             </ul>
             <h3 class="text-muted">Conway's Game Of Life</h3>
         </div>
